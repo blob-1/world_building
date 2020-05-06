@@ -2,7 +2,7 @@ from PIL import Image
 from Utilitary.Perlin import Perlin	
 from Utilitary.Region_determination import Region_determination
 from Tiles import Tile
-from random import random
+from random import randint
 
 class World:	
 	# world creation
@@ -18,7 +18,7 @@ class World:
 			for i in range(self.__size):
 				heights.append([])
 				for j in range(self.__size):
-					heights[i].append(random())
+					heights[i].append(randint(0, 255))
 					
 			heights = Perlin(smoothness, heights)
 		# loading an already existing world
@@ -51,18 +51,28 @@ class World:
 		self.__regions = Region_determination(self.__tiles)
 		
 	def save(self):	
-		im = Image.new("RGB", (self.__size , self.__size ), "#000000")
-		pixels = im.load()
+		world_map = Image.new("RGB", (self.__size , self.__size ), "#000000")
+		regions = Image.new("RGB", (self.__size , self.__size ), "#000000")
+		
+		world_pixels = world_map.load()
+		region_pixels = regions.load()
 
 		scale = Image.open("scale/scale.png")
 		scale = scale.load()
 		
 		for i in range(self.__size):
 			for j in range(self.__size):
-				col = int(self.__tiles[i][j].get_h() * 255)
-				pixels[i, j] = scale[0, col]
-		
-		im.save("worlds/"+self.__name+".png")
+				col = self.__tiles[i][j].get_h()
+				world_pixels[i, j] = scale[0, col]
+				
+				if self.__tiles[i][j].get_type() == "land" :
+					region_pixels[i, j] = self.__regions[self.__tiles[i][j].get_region()].get_col()
+				else:
+					region_pixels[i, j] = scale[0, col]	
+
+		regions.save("worlds/"+self.__name+"_regions.png")
+		world_map.save("worlds/"+self.__name+".png")
+						
 						
 				
 	def get_name(self): return self.__name

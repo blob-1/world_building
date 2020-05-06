@@ -2,7 +2,7 @@ class Tile():
 	def __init__(self, height, pos_x, pox_y):
 		self.__h = height
 
-		if height > 0.5:
+		if height > 129:
 			self.__type = "land"
 		else:
 			self.__type = "water"
