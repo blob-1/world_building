@@ -1,6 +1,8 @@
+from Utilitary.progressbarr import *
+
 def Perlin(nb_itearions, drawing_zonnes):
 
-	for i in range(nb_itearions):
+	for i in progressbar(range(nb_itearions), "Perlin Generation : ", 10):
 		
 		pixels_number = len(drawing_zonnes)-1
 

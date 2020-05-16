@@ -1,6 +1,7 @@
 from PIL import Image
 from Utilitary.Perlin import Perlin	
 from Utilitary.Region_determination import Region_determination
+from Utilitary.progressbarr import *
 from Tiles import Tile
 from random import randint
 
@@ -15,7 +16,7 @@ class World:
 			self.__size = size
 		
 			heights = []
-			for i in range(self.__size):
+			for i in progressbar(range(self.__size), "random terrain generation", 10):
 				heights.append([])
 				for j in range(self.__size):
 					heights[i].append(randint(0, 255))
@@ -31,7 +32,7 @@ class World:
 			map = map.load()
 
 			heights = []
-			for i in range(self.__size):
+			for i in progressbar(range(self.__size), "loading of each tiles", 10):
 				heights.append([])
 				for j in range(self.__size):
 					heights[i].append(map[i,j])

@@ -14,6 +14,9 @@ seed(args.seed);
 
 
 def main(name, size, smooth):
+
+	print("world name : "+args.name+"\nseed : "+str(args.seed)+"\nsize : "+str(args.size)+"*"+str(args.size)+"\nsmooth : "+str(args.smooth))
+
 	if args.load:	
 		try:
 			w = World(name)
