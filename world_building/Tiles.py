@@ -1,11 +1,6 @@
 class Tile():
 	def __init__(self, height, pos_x, pox_y):
 		self.__h = height
-
-		if height > 129:
-			self.__type = "land"
-		else:
-			self.__type = "water"
 		self.__x = pos_x
 		self.__y = pox_y
 		self.__region = None
@@ -17,13 +12,26 @@ class Tile():
 	def get_y(self): return self.__y 
 	def get_region(self): return self.__region 
 	def get_type(self) : return self.__type
-	def get_close_tiles(self) : return self.__close_tiles
+	def get_close_tiles(self, pos = -1) : 
+		if pos == -1 :return self.__close_tiles 
+		else : return self.__close_tiles[pos]
 	
-	def set_region(self, region): self.__region = region
+	def set_region(self, region): 
+		self.__region = region
+	def set_h(self, h) :
+		self.__h = h
+		self.set_type()
+	def set_type(self):
+		if self.__h > 129:
+			self.__type = "land"
+		else:
+			self.__type = "water"
 	
-	def recherche_voisines(self, tiles, i, j, max_size):
+	def recherche_voisines(self, tiles, max_size):
 		x = 0
 		y = 0
+		i = self.__x
+		j = self.__y
 		
 		# top left
 		if   i != 0 and j != 0:               x = i-1;      y = j-1

@@ -12,7 +12,7 @@ def Region_determination(tiles):
 	
 	for i in range(len(tiles)):
 		for j in range(len(tiles)):
-			tiles[i][j].recherche_voisines(tiles, tiles[i][j].get_x(), tiles[i][j].get_y(), max_size)
+			tiles[i][j].recherche_voisines(tiles, max_size)
 	
 	for i in range(len(tiles)):
 		for j in range(len(tiles)):

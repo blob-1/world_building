@@ -14,14 +14,22 @@ class World:
 		if size != None:
 			
 			self.__size = size
-		
-			heights = []
+			self.__tiles = []
+
 			for i in progressbar(range(self.__size), "random terrain generation", 10):
-				heights.append([])
+				self.__tiles.append([])
 				for j in range(self.__size):
-					heights[i].append(randint(0, 255))
-					
-			heights = Perlin(smoothness, heights)
+					self.__tiles[i].append(Tile( randint(0,255), i, j ))
+			
+			for i in range(self.__size):
+				for j in range(self.__size):			
+					self.__tiles[i][j].recherche_voisines(self.__tiles, size-1)		
+			
+			# smooth the tiles hight
+			self.__tiles = Perlin(smoothness,self.__tiles)
+			# find if there is different regions and mark them
+			self.__regions = Region_determination(self.__tiles)
+
 		# loading an already existing world
 		else:
 			try:	
@@ -37,7 +45,7 @@ class World:
 				for j in range(self.__size):
 					heights[i].append(map[i,j])
 		
-		self.__tile_creation(heights)
+			self.__tile_creation(heights)
 			
 	def __tile_creation(self, height_tab):		
 		scale = Image.open("scale/scale.png")
@@ -66,6 +74,7 @@ class World:
 				col = self.__tiles[i][j].get_h()
 				world_pixels[i, j] = scale[0, col]
 				
+				# color the regions if you are in land
 				if self.__tiles[i][j].get_type() == "land" :
 					region_pixels[i, j] = self.__regions[self.__tiles[i][j].get_region()].get_col()
 				else:

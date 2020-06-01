@@ -1,63 +1,39 @@
 from Utilitary.progressbarr import *
+from copy import copy
 
-def Perlin(nb_itearions, drawing_zonnes):
+def Perlin(nb_itearions, tiles_heights):
 
-	for i in progressbar(range(nb_itearions), "Perlin Generation : ", 10):
+	for i in progressbar(range(nb_itearions), "Perlin Generation : ", nb_itearions):
 		
-		pixels_number = len(drawing_zonnes)-1
+		pixels_number = len(tiles_heights)-1
 
-		new_drawing_zonnes = drawing_zonnes
+		new_tiles_heights = copy(tiles_heights)
 		
 		for i in range(0, pixels_number+1):
 			for j in range(0, pixels_number+1):
 
 				value = 0
 				# top left
-				if   i != 0 and j != 0: value += drawing_zonnes[i-1][j-1]
-				elif i == 0 and j != 0: value += drawing_zonnes[pixels_number][j-1]
-				elif i != 0 and j == 0: value += drawing_zonnes[i-1][pixels_number]
-				else:					value += drawing_zonnes[pixels_number][pixels_number]
-	
+				value += tiles_heights[i][j].get_close_tiles("TL").get_h()
 				# top top
-				if   i != 0: value += drawing_zonnes[i-1][j]
-				else:        value += drawing_zonnes[pixels_number][j]
-
+				value += tiles_heights[i][j].get_close_tiles("T").get_h()
 				# top right
-				if   i != 0 and j != pixels_number: value += drawing_zonnes[i-1][j+1]
-				elif i == 0 and j != pixels_number: value += drawing_zonnes[pixels_number][j+1]
-				elif i != 0 and j == pixels_number: value += drawing_zonnes[i-1][0]
-				else:                               value += drawing_zonnes[pixels_number][0]
-					
-		
+				value += tiles_heights[i][j].get_close_tiles("TR").get_h()					
 				# left left
-				if   j != 0: value += drawing_zonnes[i][j-1]
-				else:        value += drawing_zonnes[i][pixels_number]
-					
+				value += tiles_heights[i][j].get_close_tiles("L").get_h()
 				# self count
-				value += drawing_zonnes[i][j]
-				
+				value += tiles_heights[i][j].get_h()
 				# right right
-				if   j != pixels_number: value += drawing_zonnes[i][j+1]
-				else:                    value += drawing_zonnes[i][0]
-					
+				value += tiles_heights[i][j].get_close_tiles("R").get_h()
 				# bottom left
-				if   i != pixels_number and j != 0:             value += drawing_zonnes[i+1][j-1]
-				elif i == 0             and j != pixels_number: value += drawing_zonnes[i+1][pixels_number]
-				elif i != 0             and j == pixels_number: value += drawing_zonnes[0][j-1]
-				else:                                           value += drawing_zonnes[0][pixels_number]
-								
+				value += tiles_heights[i][j].get_close_tiles("BL").get_h()
 				# bottom bottom
-				if   i != pixels_number: value += drawing_zonnes[i+1][j]
-				else:                    value += drawing_zonnes[0][j]
-					
+				value += tiles_heights[i][j].get_close_tiles("B").get_h()
 				# bottom right
-				if   i != pixels_number and j != pixels_number: value += drawing_zonnes[i+1][j+1]
-				elif i == pixels_number and j != pixels_number: value += drawing_zonnes[0][j+1]
-				elif i != pixels_number and j == pixels_number: value += drawing_zonnes[i+1][0]
-				else:                                           value += drawing_zonnes[0][0]
+				value += tiles_heights[i][j].get_close_tiles("BR").get_h()
 
-				new_drawing_zonnes[i][j] = value/9
+				new_tiles_heights[i][j].set_h(value/9)
 	
-		drawing_zonnes = new_drawing_zonnes
+		tiles_heights = copy(new_tiles_heights)
 		
-	return drawing_zonnes
+	return tiles_heights
