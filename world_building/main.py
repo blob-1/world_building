@@ -23,10 +23,10 @@ def main(name, size, smooth):
 
 	if args.test:
 		#test whatever you want
-		
-		w = World(name, size, smooth, None, None, map)
+		map = 0
+		w = World(name, None, None, map)
 		w.save()
-	else if args.load:	
+	elif args.load:	
 		try:
 			w = World(name)
 		except FileNotFoundError:
