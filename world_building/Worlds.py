@@ -7,10 +7,17 @@ from random import randint
 
 class World:	
 	# world creation
-	def __init__(self, name, size = None, smoothness = None):
+	def __init__(self, name, size = None, smoothness = None, map = None):
 		self.__name = name
 
-		#if the size is defined then create a world, instead it is an already created one that is requested
+		# if a map is already given just create the world according to it
+		if map != None:
+			self.__size = len(map)-1
+			self.__tiles = map
+			
+			self.__regions = Region_determination(self.__tiles)
+		
+		# if the size is defined then create a world, instead it is an already created one that is requested
 		if size != None:
 			
 			self.__size = size
@@ -31,7 +38,7 @@ class World:
 			# find if there is different regions and mark them
 			self.__regions = Region_determination(self.__tiles)
 
-		# loading an already existing world
+		# loading an already existing world in png format
 		else:
 			try:	
 				map = Image.open("worlds/"+name+".png")
