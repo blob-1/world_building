@@ -3,7 +3,7 @@ from copy import copy
 
 def Perlin(nb_itearions, tiles_heights):
 
-	for i in progressbar(range(nb_itearions), "Perlin Generation : ", nb_itearions):
+	for i in progressbar(range(nb_itearions), "Perlin Generation : ", 10):
 		
 		pixels_number = len(tiles_heights)-1
 
