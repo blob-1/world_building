@@ -26,7 +26,8 @@ class World:
 					self.__tiles[i][j].recherche_voisines(self.__tiles, size-1)		
 			
 			# smooth the tiles hight
-			self.__tiles = Perlin(smoothness,self.__tiles)
+			Perlin(smoothness,self.__tiles)
+			
 			# find if there is different regions and mark them
 			self.__regions = Region_determination(self.__tiles)
 
@@ -59,6 +60,7 @@ class World:
 
 		self.__regions = Region_determination(self.__tiles)
 		
+	# saving the map	
 	def save(self):	
 		world_map = Image.new("RGB", (self.__size , self.__size ), "#000000")
 		regions = Image.new("RGB", (self.__size , self.__size ), "#000000")
