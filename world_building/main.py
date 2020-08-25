@@ -43,7 +43,7 @@ def main(name, size, smooth):
 		w.save()
 
 	# actual computations
-	Game(w)
+	Game(w).run()
 
 main(args.name, args.size, args.smooth)
 

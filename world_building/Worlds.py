@@ -91,10 +91,7 @@ class World:
 				else:
 					region_pixels[i, j] = scale[0, col]	
 					
-				plates_pixels[i, j] = self.__plates[self.__tiles[i][j].get_plate()].get_col()	
-		
-		for plate in self.__plates:
-			plates_pixels[plate.get_center_tile().get_x(), plate.get_center_tile().get_y()] = (255,0,0)		
+				plates_pixels[i, j] = self.__plates[self.__tiles[i][j].get_plate()].get_col()		
 
 		plates.save("worlds/plates/"+self.__name+"_plates.png")
 		regions.save("worlds/regions/"+self.__name+"_regions.png")
