@@ -1,3 +1,5 @@
+from Window_Gestion import Game
+
 from Worlds import World
 from Tech import *
 from random import seed
@@ -19,14 +21,14 @@ args = parser.parse_args()
 
 seed(args.seed);
 
-
 def main(name, size, smooth):
 
+	# world generation
 	print("world name : "+args.name+"\nseed : "+str(args.seed)+"\nsize : "+str(args.size)+"*"+str(args.size)+"\nsmooth : "+str(args.smooth))
 
 	if args.test:
 		#test whatever you want
-		generating_proc = Tech(size, args.nbPlates)
+		generating_proc = generating_procedure(size, args.nbPlates)
 		map = generating_proc.get_map()
 		plates = generating_proc.get_plates()
 		w = World(name, None, None, map, plates)
@@ -39,6 +41,9 @@ def main(name, size, smooth):
 	else:
 		w = World(name, size, smooth)
 		w.save()
+
+	# actual computations
+	Game(w)
 
 main(args.name, args.size, args.smooth)
 

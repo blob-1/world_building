@@ -96,11 +96,9 @@ class World:
 		for plate in self.__plates:
 			plates_pixels[plate.get_center_tile().get_x(), plate.get_center_tile().get_y()] = (255,0,0)		
 
-		regions.save("worlds/"+self.__name+"_regions.png")
-		world_map.save("worlds/"+self.__name+".png")
-		plates.save("worlds/"+self.__name+"_plates.png")
-						
-						
+		plates.save("worlds/plates/"+self.__name+"_plates.png")
+		regions.save("worlds/regions/"+self.__name+"_regions.png")
+		world_map.save("worlds/worlds/"+self.__name+".png")
 				
 	def get_name(self): return self.__name
 	def get_size(self): return self.__size

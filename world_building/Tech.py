@@ -4,7 +4,7 @@ from Plates import Plate
 from Utilitary.Plate_determination import *
 from random import randint
 
-class Tech():
+class generating_procedure():
 	def __init__(self, size, nb_plates):
 		self.__size = size
 		self.__tiles = []
@@ -13,7 +13,7 @@ class Tech():
 		for i in range(self.__size):
 			self.__tiles.append([])
 			for j in range(self.__size):
-				self.__tiles[i].append(Tile( randint(0,254), i, j ))
+				self.__tiles[i].append(Tile( 127, i, j))
 				
 		# define center points for each tectonic Plate
 		self.__Plates = []
