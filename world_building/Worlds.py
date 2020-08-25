@@ -7,18 +7,18 @@ from random import randint
 
 class World:	
 	# world creation
-	def __init__(self, name, size = None, smoothness = None, map = None):
+	def __init__(self, name, size = None, smoothness = None, map = None, plates = None):
 		self.__name = name
 
 		# if a map is already given just create the world according to it
 		if map != None:
-			self.__size = len(map)-1
+			self.__size = len(map)
 			self.__tiles = map
-			
+			self.__plates = plates
 			self.__regions = Region_determination(self.__tiles)
 		
 		# if the size is defined then create a world, instead it is an already created one that is requested
-		if size != None:
+		elif size != None:
 			
 			self.__size = size
 			self.__tiles = []
@@ -26,11 +26,11 @@ class World:
 			for i in progressbar(range(self.__size), "random terrain generation", 10):
 				self.__tiles.append([])
 				for j in range(self.__size):
-					self.__tiles[i].append(Tile( randint(0,255), i, j ))
+					self.__tiles[i].append(Tile( randint(0,254), i, j ))
 			
 			for i in range(self.__size):
 				for j in range(self.__size):			
-					self.__tiles[i][j].recherche_voisines(self.__tiles, size-1)		
+					self.__tiles[i][j].recherche_voisines(self.__tiles, size)		
 			
 			# smooth the tiles hight
 			Perlin(smoothness,self.__tiles)
@@ -71,9 +71,11 @@ class World:
 	def save(self):	
 		world_map = Image.new("RGB", (self.__size , self.__size ), "#000000")
 		regions = Image.new("RGB", (self.__size , self.__size ), "#000000")
+		plates = Image.new("RGB", (self.__size , self.__size ), "#000000")
 		
 		world_pixels = world_map.load()
 		region_pixels = regions.load()
+		plates_pixels = plates.load()
 
 		scale = Image.open("scale/scale.png")
 		scale = scale.load()
@@ -88,9 +90,15 @@ class World:
 					region_pixels[i, j] = self.__regions[self.__tiles[i][j].get_region()].get_col()
 				else:
 					region_pixels[i, j] = scale[0, col]	
+					
+				plates_pixels[i, j] = self.__plates[self.__tiles[i][j].get_plate()].get_col()	
+		
+		for plate in self.__plates:
+			plates_pixels[plate.get_center_tile().get_x(), plate.get_center_tile().get_y()] = (255,0,0)		
 
 		regions.save("worlds/"+self.__name+"_regions.png")
 		world_map.save("worlds/"+self.__name+".png")
+		plates.save("worlds/"+self.__name+"_plates.png")
 						
 						
 				

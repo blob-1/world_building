@@ -7,7 +7,7 @@ def Region_determination(tiles):
 	regions = []
 
 	id = 0
-	max_size = len(tiles) - 1
+	max_size = len(tiles)
 	in_process = []
 	
 	for i in range(len(tiles)):

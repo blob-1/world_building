@@ -1,33 +1,39 @@
 class Tile():
 	def __init__(self, height, pos_x, pox_y):
 		self.__h = height
+		self.set_type(height)
 		self.__x = pos_x
 		self.__y = pox_y
 		self.__region = None
+		self.__plate = None
 		
 		self.__close_tiles = {"T":None,"TR":None,"R":None,"BR":None,"B":None,"BL":None,"L":None,"TL":None}
+		
 		
 	def get_h(self): return self.__h 
 	def get_x(self): return self.__x 
 	def get_y(self): return self.__y 
 	def get_region(self): return self.__region 
 	def get_type(self) : return self.__type
+	def get_plate(self) : return self.__plate
 	def get_close_tiles(self, pos = -1) : 
 		if pos == -1 :return self.__close_tiles 
 		else : return self.__close_tiles[pos]
 	
-	def set_region(self, region): 
-		self.__region = region
+	def set_region(self, region): self.__region = region
+	def set_plate(self, plate): self.__plate = plate
 	def set_h(self, h) :
 		self.__h = h
-		self.set_type()
-	def set_type(self):
-		if self.__h > 129:
+		self.set_type(h)
+	def set_type(self,h):
+		if h > 129:
 			self.__type = "land"
 		else:
 			self.__type = "water"
 	
-	def recherche_voisines(self, tiles, max_size):
+	def recherche_voisines(self, tiles, size):
+		max_size = size - 1 
+		
 		x = 0
 		y = 0
 		i = self.__x
@@ -80,3 +86,11 @@ class Tile():
 		elif i != max_size and j == max_size: x = i+1;      y = 0
 		else:                                 x = 0;        y = 0
 		self.__close_tiles["BR"] = tiles[x][y]
+		
+	# stringification (test only...)	
+	def __str__(self):
+		return(
+			"x = "+str(self.get_x())+"\n"+
+			"y = "+str(self.get_y())+"\n"+
+			"h = "+str(self.get_h())+"; type = "+str(self.get_type())
+		)	

@@ -1,4 +1,5 @@
 from Worlds import World
+from Tech import *
 from random import seed
 
 import argparse
@@ -10,7 +11,9 @@ parser.add_argument("--seed", type=int, default = 100, help="Set the seed of the
 parser.add_argument("--load", type=bool, default = False, help="load a world")
 
 # for testing purposes only
-parser.add_argument("--test", type=bool, default = False, help="load a world")
+parser.add_argument("--test", type=bool, default = False, help="enable testing_variables")
+parser.add_argument("--nbPlates", type=int, default = 5, help="load a world")
+
 
 args = parser.parse_args()
 
@@ -23,8 +26,9 @@ def main(name, size, smooth):
 
 	if args.test:
 		#test whatever you want
-		map = 0
-		w = World(name, None, None, map)
+		map = Tech(size, args.nbPlates).get_map()
+		plates = Tech(size, args.nbPlates).get_plates()
+		w = World(name, None, None, map, plates)
 		w.save()
 	elif args.load:	
 		try:
