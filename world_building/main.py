@@ -26,8 +26,9 @@ def main(name, size, smooth):
 
 	if args.test:
 		#test whatever you want
-		map = Tech(size, args.nbPlates).get_map()
-		plates = Tech(size, args.nbPlates).get_plates()
+		generating_proc = Tech(size, args.nbPlates)
+		map = generating_proc.get_map()
+		plates = generating_proc.get_plates()
 		w = World(name, None, None, map, plates)
 		w.save()
 	elif args.load:	
